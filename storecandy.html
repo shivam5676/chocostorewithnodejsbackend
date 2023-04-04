@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <form onsubmit="savevalueincrud(event)">
+        <label for="Chocolate">Choclate name</label>
+        <input type="text" id="chocolate" name="chocolatedata">
+        <label for="description">description name</label>
+        <input type="text" id="descripton" name="descriptiondata">
+        <label for="quantity">quantity </label>
+        <input type="text" id="quantity" name="quantitydata">
+        <label for="price">price</label>
+        <input type="tel" id="price" name="pricedata">
+        <input type="submit">
+    </form>
+    <ul id="listofitems"></ul>
+
+
+
+
+    <script>
+        function savevalueincrud(event) {
+            event.preventDefault();
+            const chocolate = event.target.chocolatedata.value
+            const description = event.target.descriptiondata.value
+            const quantity = event.target.quantitydata.value
+            const price = event.target.pricedata.value
+            const myobj = {
+                chocolate,
+                description,
+                quantity,
+                price
+            }
+            // localStorage.setItem("user", JSON.stringify(myobj))
+            axios.post("https://crudcrud.com/api/857aebc4b6184b588c9420ba53d639bd/chocostore", myobj)
+                .then((respo) => {
+                    console.log(respo)
+
+                    showuser(myobj);
+                })
+                .catch((err) => {
+                    console.log(err)
+                })
+            axios.get("https://crudcrud.com/api/857aebc4b6184b588c9420ba53d639bd/chocostore")
+                .then((response) => {
+                    console.log(response)
+                })
+                .catch((err) => {
+                    console.log(err)
+                })
+
+
+        }
+        window.addEventListener("DOMContentLoaded", () => {
+            axios.get("https://crudcrud.com/api/857aebc4b6184b588c9420ba53d639bd/chocostore")
+                .then((res) => {
+                    console.log(res);
+                    for (var i = 0; i < res.data.length; i++) {
+                        showuser(res.data[i])
+                    }
+
+                })
+                .catch((err) => {
+                    console.log(err)
+                })
+
+
+        })
+        function showuser(myobj) {
+            const parent = document.getElementById("listofitems");
+            const child = document.createElement("li")
+
+
+            child.textContent = myobj.chocolate + "=>" + myobj.description + "=>" + myobj.quantity + "=>" + myobj.price + " ===" + myobj._id
+
+            const buybtn1 = document.createElement("input")
+            buybtn1.value = "1 qty"
+            buybtn1.type = "button"
+
+            const buybtn2 = document.createElement("input")
+            buybtn2.value = "2 qty"
+            buybtn2.type = "button"
+
+            const buybtn3 = document.createElement("input")
+            buybtn3.value = "3 qty"
+            buybtn3.type = "button"
+
+            buybtn1.onclick = () => {
+                const qty = myobj.quantity;
+                // =document.getElementById("quantity").value;
+                axios.get("https://crudcrud.com/api/857aebc4b6184b588c9420ba53d639bd/chocostore")
+                    .then((response) => {
+                        console.log(response)
+
+
+                    })
+                    .catch((err) => {
+                        console.log(err)
+                    })
+                myobj.quantity = myobj.quantity - 1;
+
+                axios.put(`https://crudcrud.com/api/857aebc4b6184b588c9420ba53d639bd/chocostore/${myobj._id}`, { myobj })
+                    .then((res) => {
+                        console.log(res);
+                        console.log(myobj.quantity);
+                    })
+                    .catch((err) => {
+                        console.log(err)
+                    })
+            }
+            buybtn2.onclick = () => {
+                const qty = myobj.quantity;
+                // =document.getElementById("quantity").value;
+                axios.get("https://crudcrud.com/api/857aebc4b6184b588c9420ba53d639bd/chocostore")
+                    .then((response) => {
+                        console.log(response)
+
+
+                    })
+                    .catch((err) => {
+                        console.log(err)
+                    })
+                myobj.quantity = myobj.quantity - 2;
+
+                axios.put(`https://crudcrud.com/api/857aebc4b6184b588c9420ba53d639bd/chocostore/${myobj._id}`, { myobj })
+                    .then((res) => {
+                        console.log(res);
+                        console.log(myobj.quantity);
+                    })
+                    .catch((err) => {
+                        console.log(err)
+                    })
+            }
+            buybtn3.onclick = () => {
+                const qty = myobj.quantity;
+                // =document.getElementById("quantity").value;
+                axios.get("https://crudcrud.com/api/857aebc4b6184b588c9420ba53d639bd/chocostore")
+                    .then((response) => {
+                        console.log(response)
+
+
+                    })
+                    .catch((err) => {
+                        console.log(err)
+                    })
+                myobj.quantity = myobj.quantity - 3;
+
+                axios.put(`https://crudcrud.com/api/857aebc4b6184b588c9420ba53d639bd/chocostore/${myobj._id}`, { myobj })
+                    .then((res) => {
+                        console.log(res);
+                        console.log(myobj.quantity);
+                    })
+                    .catch((err) => {
+                        console.log(err)
+                    })
+            }
+
+
+
+
+
+
+
+
+
+
+            parent.appendChild(child);
+
+            child.appendChild(buybtn1)
+            child.appendChild(buybtn2)
+            child.appendChild(buybtn3)
+        }
+
+
+    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.3.4/axios.min.js"></script>
+
+
+
+
+
+
+
+</body>
+
+</html>
